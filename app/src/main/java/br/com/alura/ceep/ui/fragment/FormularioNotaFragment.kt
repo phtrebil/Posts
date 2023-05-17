@@ -37,17 +37,10 @@ class FormularioNotaFragment : Fragment() {
     private val controlador by lazy {
         findNavController()
     }
+    private lateinit var viewDataBinding: FormularioNotaBinding
     private lateinit var notaEncontrada: Nota
     private var urlAtual: String = ""
-    private val campoTitulo: EditText by lazy {
-        formulario_nota_titulo
-    }
-    private val campoDescricao: EditText by lazy {
-        formulario_nota_descricao
-    }
-    private val campoFavorita: CheckBox by lazy {
-        formulario_nota_favorita
-    }
+
     private val campoImagem: ImageView by lazy {
         formulario_nota_imagem
     }
@@ -65,11 +58,8 @@ class FormularioNotaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
-            R.layout.formulario_nota,
-            container,
-            false
-        )
+        viewDataBinding = FormularioNotaBinding.inflate(inflater, container, false)
+        return viewDataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +75,6 @@ class FormularioNotaFragment : Fragment() {
             viewModel.buscaPorId(notaId).observe(this, Observer {
                 it?.let { notaEncontrada ->
                     inicializaNota(notaEncontrada)
-                    inicializaCampos()
                     appViewModel.temComponentes = appBarParaEdicao()
                 }
             })
@@ -131,14 +120,7 @@ class FormularioNotaFragment : Fragment() {
         urlAtual = this.notaEncontrada.imagemUrl
     }
 
-    private fun inicializaCampos() {
-        if (::notaEncontrada.isInitialized) {
-            campoTitulo.setText(notaEncontrada.titulo)
-            campoDescricao.setText(notaEncontrada.descricao)
-            campoFavorita.isChecked = notaEncontrada.favorita
-            configuraImagem()
-        }
-    }
+
 
     private fun configuraImagem() {
         configuraVisibilidadeDeComponentes()

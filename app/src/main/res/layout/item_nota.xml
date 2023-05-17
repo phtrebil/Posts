@@ -3,14 +3,19 @@
     <data>
         <import type="android.view.View" />
         <variable
+            name="clicaNaNota"
+            type="android.view.View.OnClickListener" />
+        <variable
             name="nota"
             type="br.com.alura.ceep.model.Nota" />
     </data>
+
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{(view) -> clicaNaNota.onClick(view)}"
         android:layout_margin="8dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="1dp">
